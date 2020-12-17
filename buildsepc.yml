@@ -1,0 +1,13 @@
+version: 0.2
+
+env:
+  variables:
+    ENV_NAME: "prod"
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 10
+    commands:
+      - echo installing Serverless framework...
+      - npm install -g serverless
