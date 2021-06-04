@@ -10,6 +10,13 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - echo "hello world"
+      - initiator_email=`echo ${CODEBUILD_INITIATOR} | awk -F '/' '{print $2}'`
+      - echo ${initiator_email}
+      - echo $CODEBUILD_RESOLVED_SOURCE_VERSION
+      - git show -s $CODEBUILD_RESOLVED_SOURCE_VERSION | grep Author
+      - git show $CODEBUILD_RESOLVED_SOURCE_VERSION | grep Author
+      - ls -lart
       - mvn install
   post_build:
     commands:
