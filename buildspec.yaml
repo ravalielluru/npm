@@ -7,6 +7,7 @@ phases:
         commands:
             - echo installing nodejs...
             - curl -sL https://deb.nodesource.com/setup_12.x | bash -
+            - apt-get update
             - apt-get install -y nodejs
             - echo installing yarn...
             - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
@@ -19,9 +20,6 @@ phases:
             - npm install
     build:
         commands:
-            # - echo testing... # TODO: add tests to build process
-            # - ng test --watch false
-            # - echo tested!
             - echo building...
             - ng build ${BUILD_COMMAND}
             - npm run postbuild
@@ -31,7 +29,4 @@ phases:
 
     post_build:
         commands:
-            - codebuild-breakpoint
-            - echo clearing cache...
-            - aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths /index.html /assets/lang/* /assets/version.json
-            - echo cleared!
+            - echo Build completed on `date`
