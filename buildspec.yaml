@@ -1,0 +1,37 @@
+# ? USED TO BUILD ANGULAR CODE IN AWS CODE BUILDER
+
+version: 0.1
+
+phases:
+    install:
+        commands:
+            - echo installing nodejs...
+            - curl -sL https://deb.nodesource.com/setup_12.x | bash -
+            - apt-get install -y nodejs
+            - echo installing yarn...
+            - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+            - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+            - apt install --no-install-recommends yarn
+    pre_build:
+        commands:
+            - echo installing dependencies...
+            - npm i -g @angular/cli
+            - npm install
+    build:
+        commands:
+            # - echo testing... # TODO: add tests to build process
+            # - ng test --watch false
+            # - echo tested!
+            - echo building...
+            - ng build ${BUILD_COMMAND}
+            - npm run postbuild
+            - echo builded!
+            - echo uploading to S3...
+            - echo uploaded!
+
+    post_build:
+        commands:
+            - codebuild-breakpoint
+            - echo clearing cache...
+            - aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths /index.html /assets/lang/* /assets/version.json
+            - echo cleared!
