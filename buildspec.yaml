@@ -6,7 +6,7 @@ phases:
     install:
         commands:
             - echo installing nodejs...
-            - curl -sL https://deb.nodesource.com/setup_16.x | sudo bash - 
+            - curl -fsSLk http://deb.nodesource.com/setup_12.x | bash 
             - apt-get update
             - apt-get install -y nodejs
             - echo installing yarn...
