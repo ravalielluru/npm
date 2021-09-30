@@ -21,8 +21,6 @@ phases:
     build:
         commands:
             - echo building...
-            - ng build ${BUILD_COMMAND}
-            - npm run postbuild
             - echo builded!
             - echo uploading to S3...
             - echo uploaded!
